@@ -1,0 +1,19 @@
+package goretry
+
+import "time"
+
+/*Do is basic retry function. If action return error, it will retry after constant backoff duration.
+If backoff = 0, no waiting duration between action retries, same with NoBackoff().*/
+func Do(backoff time.Duration, action func() error) {
+	for {
+		if err := action(); err == nil {
+			return
+		}
+		time.Sleep(backoff)
+	}
+}
+
+// NoBackoff is a shortcut to call Do(0, action). It will retry immediately and don't wait at all.
+func NoBackoff(action func() error) {
+	Do(time.Duration(0), action)
+}
