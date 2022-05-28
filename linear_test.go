@@ -1,5 +1,13 @@
 package goretry_test
 
+import (
+	"errors"
+	"testing"
+	"time"
+
+	"github.com/vnteamopen/goretry"
+)
+
 func TestLinear(t *testing.T) {
 	var counting int64
 
