@@ -26,7 +26,7 @@ func TestFibonacci(t *testing.T) {
 		t.Errorf("Linear() expected counting: %d, actual: %d", expectedCounting, counting)
 	}
 
-	expectedDuration := 500 * time.Millisecond
+	expectedDuration := 800 * time.Millisecond
 	if duration < expectedDuration {
 		t.Errorf("Linear() expected duration: %d, actual: %d", expectedDuration, duration)
 	}
