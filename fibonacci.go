@@ -2,8 +2,8 @@ package goretry
 
 import "time"
 
-/*Do is basic retry function. If action return error, it will retry after constant backoff duration.
-If backoff = 0, no waiting duration between action retries, same with NoBackoff().*/
+/* Fibonacci performs retry function with the waiting duration calculated using Fibonacci sequence.
+It will wait for firstWaiting to do the first retry*/
 func Fibonacci(firstWaiting time.Duration, action func() error) {
 	var backoff time.Duration
 	lastWaiting := firstWaiting
