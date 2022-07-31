@@ -1,6 +1,6 @@
 package goretry
 
-func intPow(x int64, degree int) int64 {
+func intPow(x, degree int64) int64 {
 	if degree == 0 {
 		return 1
 	}
@@ -8,7 +8,7 @@ func intPow(x int64, degree int) int64 {
 		return 0
 	}
 	ret := int64(x)
-	for i := 2; i <= degree; i++ {
+	for i := int64(2); i <= degree; i++ {
 		ret *= x
 	}
 	return ret

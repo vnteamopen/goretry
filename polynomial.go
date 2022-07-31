@@ -6,13 +6,13 @@ import (
 
 /* Polynomial performs retry function with backoff time calculated by Polynomial function.
 It will wait for baseTime to do the first retry, and then increase the waiting time by time = attempt ^ degree * baseTime */
-func Polynomial(baseTime time.Duration, degree int, action func() error) {
+func Polynomial(baseTime time.Duration, degree int64, action func() error) {
 	std.Polynomial(baseTime, degree, action)
 }
 
 /* Polynomial performs retry function with backoff time calculated by Polynomial function.
 It will wait for baseTime to do the first retry, and then increase the waiting time by time = attempt ^ degree * baseTime */
-func (i *Instance) Polynomial(baseTime time.Duration, degree int, action func() error) {
+func (i *Instance) Polynomial(baseTime time.Duration, degree int64, action func() error) {
 	var count int64
 	var totalWaiting time.Duration
 	backoff := baseTime
