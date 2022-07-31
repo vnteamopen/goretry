@@ -2,8 +2,6 @@ package goretry
 
 import (
 	"time"
-
-	"github.com/vnteamopen/goretry/common"
 )
 
 /* Polynomial performs retry function with backoff time calculated by Polynomial function.
@@ -34,7 +32,7 @@ func (i *Instance) Polynomial(baseTime time.Duration, degree int, action func() 
 		}
 
 		i.sleep(backoff)
-		backoff = baseTime * time.Duration(common.IntPow((count+1), degree))
+		backoff = baseTime * time.Duration(intPow((count+1), degree))
 		totalWaiting += backoff
 	}
 }
