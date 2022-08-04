@@ -50,3 +50,18 @@ func TestInstance_sleepWithoutMaxValue(t *testing.T) {
 		t.Errorf("Expected: %v, got: %v", expected, buffer.String())
 	}
 }
+
+func TestInstance_sleepWithJitter(t *testing.T) {
+	var buffer bytes.Buffer
+	instanceWithLogger := Instance{
+		Logger:           &buffer,
+		JitterEnabled:    true,
+		JitterFloorSleep: 10 * time.Millisecond,
+		JitterMinSleep:   5 * time.Millisecond,
+	}
+	instanceWithLogger.sleep(200 * time.Millisecond)
+	notExpected := "sleep 200ms\n"
+	if buffer.String() == notExpected {
+		t.Errorf("Not expected but got: %v", buffer.String())
+	}
+}
