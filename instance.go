@@ -3,7 +3,6 @@ package goretry
 import (
 	"fmt"
 	"io"
-	"math/rand"
 	"time"
 )
 
@@ -29,9 +28,6 @@ type Instance struct {
 	// JitterFloorSleep is the lower bound of the random function when calculating sleep time with jitter. Default: NoLimit
 	JitterFloorSleep time.Duration
 
-	// JitterMinSleep defines the smallest duration of sleep time with jitter. Default: 0
-	JitterMinSleep time.Duration
-
 	// Logger defines log output. You can use os.Stdout, file or any writer stream.
 	Logger io.Writer
 }
@@ -43,7 +39,6 @@ var std = Instance{
 	CeilingSleep:        NoDuration,
 	JitterEnabled:       false,
 	JitterFloorSleep:    0,
-	JitterMinSleep:      0,
 	Logger:              nil,
 }
 
@@ -55,14 +50,11 @@ func (i *Instance) log(format string, a ...any) {
 }
 
 func (i *Instance) sleep(duration time.Duration) time.Duration {
-	if i.JitterEnabled && duration != 0 {
-		duration = time.Duration(rand.Int63n(int64(duration)) + int64(i.JitterFloorSleep))
-		if duration < i.JitterMinSleep {
-			duration = i.JitterMinSleep
-		}
-	}
 	if i.CeilingSleep != NoDuration && duration > i.CeilingSleep {
 		duration = i.CeilingSleep
+	}
+	if i.JitterEnabled && duration != NoDuration {
+		duration = calculateJitter(duration, i.JitterFloorSleep)
 	}
 	time.Sleep(duration)
 	i.log("sleep %v", duration)

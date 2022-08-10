@@ -57,7 +57,6 @@ func TestInstance_sleepWithJitter(t *testing.T) {
 		Logger:           &buffer,
 		JitterEnabled:    true,
 		JitterFloorSleep: 10 * time.Millisecond,
-		JitterMinSleep:   5 * time.Millisecond,
 	}
 	instanceWithLogger.sleep(200 * time.Millisecond)
 	notExpected := "sleep 200ms\n"
